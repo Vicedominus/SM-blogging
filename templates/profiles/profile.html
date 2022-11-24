@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block navbar %}
+    <a class="nav-link text-black mx-2" href="{% url 'feed' %}" style="font-size: 20px;">Home</a>
+    <a class="nav-link text-black mx-2" href="{% url 'logout' %}" style="font-size: 20px;">Log out</a>
+{% endblock %} 
+{% block content %}
+    <div class="container mt-5">
+        <div class="row my-5">
+            <div class="col-4 my-5">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Profile</th>
+                            <th scope="col" style="text-align: right">
+                                <div class="dropdown dropstart">
+                                    <a href="" style="color: black;"><i class="fa-solid fa-pen-to-square"></i><span class="text"></span></a>
+                                </div> 
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">username</th>
+                            <td style="text-align: right;">{{profile.user.username}}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">email</th>
+                            <td style="text-align: right;">{{profile.user.email}}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">bio</th>
+                            <td style="text-align: right;">{{profile.bio}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col my-5">
+                <img src="{{profile.profile_picture.url}}" class="img-fluid rounded my-2" alt="..." style="max-width: 200px; max-height: 200px;"> 
+            </div>
+        </div>
+    </div>
+    
+
+{% endblock %}

@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block navbar %}
+    <a class="nav-link text-black mx-2" href="{% url 'feed' %}" style="font-size: 20px;">Home</a>
+    <a class="nav-link text-light mx-2 btn btn-dark px-3" href="{% url 'logout' %}" style="border-radius: 25px;font-size: 18px;">Log out</a>
+{% endblock %} 
+{% block content %}
+    <div class="container mt-5 pt-4">
+        <div class="row mt-4">
+            <div class="col-md-8">
+                <div class="container my-1">
+                    <div class="row my-1">
+                        <div class="col">
+                            <h2>{{post.title}}</h2>
+                            <h4>{{post.subtitle}}</h4>                                                    
+                        </div>
+                    </div>
+                    <div class="row my-1">
+                        <h5><img src="{{post.author.profile_picture.url}}" class="img-fluid rounded my-3" alt="..." style="width: 30px;height: 30px"><span class="ms-3">{{post.author}}</span></h5>
+                    </div>
+                    <div class="row mt-1 mb-5">
+                        <div class="col-12">
+                            <div class="container">
+                                <img class="img-fluid" src="{{post.post_picture.url}}" alt="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row my-5">
+                        <div class="col">
+                            <p>{{post.content}}</p>                          
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="row">
+                                <h4>Comments</h4> 
+                                <div class="col">
+                                    {% for comment in post.comment_set.all %}
+                                    <p>{{comment.author}}: {{comment.content}}</p>
+                                    {% endfor %}
+                                </div>   
+                            </div>
+                            <div class="row">
+                                <div class="container">
+                                    <form method="post" action="{% url 'to_comment' %}">{% csrf_token %}
+                                        <input type="hidden" name="post" value={{post.pk}}>
+                                        <input type="text" name="comment" value="" required>
+                                        <button type="submit" class="btn btn-primary" style="border-radius: 25px;max-width: 100px;">Send</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="container my-1">
+                    <div class="row my-1">
+                        <div class="col">
+                            <div class="row">
+                                <h5><img src="{{post.author.profile_picture.url}}" class="img-fluid rounded my-3" alt="..." style="width: 50px;height: 50px"><span class="ms-3">{{post.author}}</span></h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row my-1">
+                        <h5>Followers: {{followers}}</h5>
+                    </div>
+                    <div class="row my-1">
+                        <p>Web developer. Escribo artículos en mi tiempo libre</p>
+                    </div>
+                    <div class="row my-1">
+                        <form method="post" action="{% url 'follow' %}">{% csrf_token %}
+                            <input type="hidden" name="author" value={{post.author.pk}}>
+                            {% if follow %}                            
+                                <button type="submit" class="btn btn-outline-dark" style="border-radius: 25px;max-width: 100px;">Unfollow</button>   
+                            {% else %}
+                                <button type="submit" class="btn btn-dark" style="border-radius: 25px;max-width: 100px;">Follow</button>
+                            {% endif %}
+                        </form>
+                    </div>                    
+                </div>
+            </div>            
+        </div>
+    </div>
+{% endblock %}
+
+

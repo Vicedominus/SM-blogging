@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block navbar %}
+    <a class="nav-link text-black mx-2" href="{% url 'write' %}" style="font-size: 20px;">Write</a>
+    <a class="nav-link text-black mx-2" href="{% url 'profile' user.username %}" style="font-size: 20px;">Profile</a>
+    <a class="nav-link text-black mx-2" href="{% url 'logout' %}" style="font-size: 20px;">Log out</a>
+{% endblock %} 
+{% block content %}
+    <div class="container mt-5">
+        <div class="row align-items-center"> 
+            <div class="col-lg-2 mt-5">
+                <h1>{{request.user}}</h1>
+            </div>
+            <div class="col-lg-8 mt-5">
+                <h4>Home</h4>
+                {% for post in posts %}
+                    <div class="row my-4">
+                        <div class="col">
+                            <div class="container my-2">
+                                <div class="row">
+                                    <div class="col">                            
+                                        <div class="container">
+                                            <p><img src="{{post.author.profile_picture.url}}" class="img-fluid rounded my-3" alt="..." style="width: 30px;height: 30px"><span class="ms-3">{{post.author.user}}</span></p>
+                                            <a href="{% url 'post_detail' post.id %}"><h5>{{post.title}}</h5></a>                    
+                                        </div>                            
+                                    </div>  
+                                    <div class="col">
+                                        <img src="{{post.post_picture.url}}" class="img-fluid rounded my-2" alt="..." style="max-width: 200px; max-height: 200px;"> 
+                                    </div>
+                                </div>
+                            </div>  
+                        </div>         
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="col-lg-2 mt-5">
+                <h4>Find authors</h4>
+                
+            </div>
+        </div>
+        
+    </div>
+
+
+    
+
+{% endblock %}
